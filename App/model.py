@@ -46,12 +46,12 @@ def newCatalog():
     catalog['country'] = mp.newMap(numelements=17,
                                 prime=109345121,
                                 maptype='CHAINING',
-                                loadfactor=0.5,
+                                loadfactor=6.00,
                                 comparefunction=None)
     catalog['category'] = mp.newMap(numelements=17,
                                 prime=109345121,
                                 maptype='CHAINING',
-                                loadfactor=0.5,
+                                loadfactor=6.00,
                                 comparefunction=None)
     return catalog
 def addVideo(catalog, video):
