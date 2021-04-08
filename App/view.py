@@ -55,15 +55,16 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        t1=time.process_time()
         print("Cargando información de los archivos ....")
+        cont = controller.initCatalog()
         catalog = initCatalog()
-        loadData(catalog)
+        answer = controller.loadData(cont)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Paises cargados: ' + str(lt.size(catalog['country'])))
         print('Categorias cargadas: ' + str(lt.size(catalog['category'])))
-        t2=time.process_time()
-        print('El tiempo de procesamiento es: {}.'.format(t2-t1))
+        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{answer[1]:.3f}")
+
 
     elif int(inputs[0]) == 2:
         t1=time.process_time()
