@@ -23,6 +23,7 @@
 import config as cf
 import sys
 import controller
+from DISClib.ADT import map as mp
 from DISClib.ADT import list as lt
 assert cf
 import time
@@ -38,14 +39,12 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Encontrar videos por categoria con mas likes")
-
-def initCatalog():
-    return controller.initCatalog()
-
-def loadData(catalog):
-    controller.loadData(catalog)
-
+    print("2- Cargar Videos con trending en un pais y categoria")    
+    print("3- Cargar Video con mas trading segun su país")
+    print("4- Cargar Video con mas trading segun su categoría")
+    print("5- Cargar Video con mas likes segun Tags")
+    print("0- Salir")
+    
 
 """
 Menu principal
@@ -57,25 +56,51 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         cont = controller.initCatalog()
-        catalog = initCatalog()
         answer = controller.loadData(cont)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Paises cargados: ' + str(lt.size(catalog['country'])))
-        print('Categorias cargadas: ' + str(lt.size(catalog['category'])))
+        print('Videos cargados: ' + str(lt.size(cont['videos'])))
+        print('Paises cargados: ' + str(mp.size(cont['country'])))
+        print('Categorias cargadas: ' + str(mp.size(cont['category'])))
         print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
               "Memoria [kB]: ", f"{answer[1]:.3f}")
 
 
     elif int(inputs[0]) == 2:
         t1=time.process_time()
+        pais = input("Ingrese el pais que desea ver:\n")
         categ = ' '+input("Ingrese la categoria que desea ver:\n")
         num = int(input("Ingrese la cantidad de datos que desa ver:\n"))
         print("Cargando Videos trending....")
-        controller.req1(categ,num,catalog)
+        controller.req1(pais,categ,num,cont)
         t2=time.process_time()
         tft=round(((t2-t1)*1000),2)
         print('El tiempo de procesamiento es: {}.'.format(tft))
-        pass
+
+    elif int(inputs[0]) == 3:
+        t1=time.process_time()
+        print("Cargando Video con mas trading segun su país ....")
+        country=input('Ingrese el pais que desea ver: ')
+        controller.req2(country,cont)
+        t2=time.process_time()
+        print('El tiempo de procesamiento es: {}.'.format(t2-t1))
+
+    elif int(inputs[0]) == 4:
+        t1=time.process_time()
+        categ = ' '+input("Ingrese la categoria que desea ver:\n")
+        print("Cargando Video con mas trading segun su categoria ....")
+        controller.req3(categ,cont)
+        t2=time.process_time()
+        print('El tiempo de procesamiento es: {}.'.format(t2-t1))
+
+    elif int(inputs[0]) == 5:
+        t1=time.process_time()
+        print("Cargando Video con mas likes segun Tags ....")
+        country= input("Ingrese el pais del video que desea ver:\n")
+        tag=input("Ingrese el tag del video que desea ver:\n")
+        num=input("Ingrese el numero de videos que desea ver:\n")
+        controller.req4(country,tag,num,cont)
+        t2=time.process_time()
+        print('El tiempo de procesamiento es: {}.'.format(t2-t1))
+    
 
     else:
         sys.exit(0)

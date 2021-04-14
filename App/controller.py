@@ -71,7 +71,7 @@ def loadData(catalog):
 
 
 def loadVideos(catalog):
-    videosfile = cf.data_dir + 'Videos/videos-small.csv'
+    videosfile = cf.data_dir + 'Videos/videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     contador = 1
     for e in input_file:
@@ -79,7 +79,7 @@ def loadVideos(catalog):
                 'video_id':e['video_id'],
                 'trending_date': datetime.strptime(e['trending_date'],'%y.%d.%m').date(),
                 'title':e['title'],
-                'channel_title':e['title'],
+                'channel_title':e['channel_title'],
                 'category_id': e['category_id'],
                 'publish_time':iso.parse_date(e['publish_time']),
                 'tags':e['tags'],
@@ -92,16 +92,30 @@ def loadVideos(catalog):
         model.addVideoCountry(catalog,ee,contador)
         model.addVideoCategory(catalog,ee,contador)
         contador+=1
+    model.verP(catalog)
 
 
 
-def req1(category,num,catalog):
-    video =model.findVideos(category,catalog)
-    sList = model.sortLikes(video,'shellsort')
+def req1(country,category,num,catalog):
+    video =model.videosTrending(country,category,catalog)
+    sList = model.sortViews(video,'shellsort')
     lst = model.newSList(sList,1,int(num))
     model.presentacion(lst)
 
+def req2(country,catalog):
+    lr=model.duracionTen(country,catalog)
+    print(model.presentacionReq2(lr))
 
+def req3(category,catalog):
+    lr=model.contVidsCat(category,catalog)
+    print(model.presentacionReq3(lr))
+
+
+def req4(country,tag,num,catalog):
+    video=model.tagsEsp(country,tag,catalog)
+    sList = model.sortLikes(video,'shellsort')
+    lst = model.newSList(sList,1,int(num))
+    model.presantacionTag(lst)
 # ======================================
 # Funciones para medir tiempo y memoria
 # ======================================
