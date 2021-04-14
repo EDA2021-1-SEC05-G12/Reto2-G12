@@ -71,7 +71,7 @@ def loadData(catalog):
 
 
 def loadVideos(catalog):
-    videosfile = cf.data_dir + 'Videos/videos-large.csv'
+    videosfile = cf.data_dir + 'Videos/videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     contador = 1
     for e in input_file:

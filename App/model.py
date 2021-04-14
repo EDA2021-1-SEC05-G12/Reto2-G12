@@ -101,12 +101,6 @@ def addVideoCategory(catalog, video,contador):
 def newSList(lst, pos, numelem):
     return lt.subList(lst, pos, numelem)
 
-def findVideos(category,catalog):
-    categories = catalog['category']
-    c = mp.get(categories,category)['value']
-    v=idTranslate(c,catalog['videos'])
-    return v
-
 def idTranslate(ids,videos):
     v=lt.newList(datastructure='ARRAY_LIST',cmpfunction=compVideosByLikes)
     for i in ids:
@@ -126,7 +120,7 @@ def sortViews(lst, fun):
 
     else:
         print("Funcion de ordenamiento no existe.")
-
+        
 
 def shesort(lst,cmpfunction):
     return she.sort(lst, cmpfunction)
@@ -155,6 +149,18 @@ def verP(catalog):
 def videosTrending(country,category,catalog):
     videos= findVideos(country,category,catalog)
     return videos
+
+def findVideos(country,category,catalog):
+    countries= catalog['country']
+    categories = catalog['category']
+    l = mp.get(countries,country)['value']
+    c = mp.get(categories,category)['value']
+    lf=[]
+    for u in l:
+        if u in c:
+            lf.append(u)
+    v=idTranslate(lf,catalog['videos'])
+    return v
 
 def tagsEsp(country,tag,catalog):
     video=catalog['videos']
